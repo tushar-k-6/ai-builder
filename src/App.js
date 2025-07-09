@@ -75,6 +75,8 @@ function App() {
   const handleImprove = async (improvementRequest) => {
     if (!websiteData) return;
     
+    console.log('🚀 Starting improvement process...', { improvementRequest });
+    
     setIsImproving(true);
     setError(null);
     
@@ -83,14 +85,26 @@ function App() {
     document.title = `${randomLogo} Generative AI Website Builder - Improving...`;
     
     try {
+      console.log('📤 Sending to AI service...', { currentWebsiteData: websiteData });
       const result = await geminiService.improveWebsite(websiteData, improvementRequest);
+      
+      console.log('📥 Received improved result:', result);
+      
+      // Check if the result is actually different
+      const isChanged = JSON.stringify(result) !== JSON.stringify(websiteData);
+      console.log('🔍 Website changed?', isChanged);
+      
       setWebsiteData(result);
       
       // Update tab title when improvement is complete
       const completeLogo = logoEmojis[Math.floor(Math.random() * logoEmojis.length)];
       document.title = `${completeLogo} Generative AI Website Builder - Improved!`;
+      
+      if (!isChanged) {
+        console.warn('⚠️ Website data appears unchanged - this might indicate an issue');
+      }
     } catch (err) {
-      console.error('Improvement error:', err);
+      console.error('❌ Improvement error:', err);
       setError('Failed to improve website. Please try again.');
     } finally {
       setIsImproving(false);

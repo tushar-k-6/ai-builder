@@ -66,9 +66,13 @@ Generate a professional, production-ready website.
 
   async improveWebsite(currentCode, improvementRequest) {
     try {
+      console.log('🔧 Starting website improvement...', { improvementRequest });
+      
       const prompt = `
-You are an expert web developer. Here's the current website code:
+You are an expert web developer. I need you to improve the following website code based on a specific request.
 
+CURRENT WEBSITE CODE:
+===================
 HTML:
 ${currentCode.html}
 
@@ -78,36 +82,137 @@ ${currentCode.css}
 JavaScript:
 ${currentCode.js}
 
-Please improve this website based on this request: "${improvementRequest}"
+IMPROVEMENT REQUEST: "${improvementRequest}"
 
-Provide the improved version in the same JSON format:
+INSTRUCTIONS:
+- Make specific, noticeable improvements based on the request
+- If asked for colors, change color schemes significantly
+- If asked for animations, add CSS transitions and hover effects
+- If asked for responsive design, improve mobile layouts
+- If asked for dark mode, implement a dark color scheme
+- Always make visible changes that the user will notice
+- Keep the existing structure but enhance it
+
+REQUIRED OUTPUT FORMAT (JSON only, no other text):
 {
-  "html": "improved HTML",
-  "css": "improved CSS", 
-  "js": "improved JavaScript",
-  "title": "updated title if needed",
-  "description": "updated description if needed"
+  "html": "IMPROVED HTML CODE HERE",
+  "css": "IMPROVED CSS CODE HERE",
+  "js": "IMPROVED JAVASCRIPT CODE HERE",
+  "title": "updated title if needed or keep original",
+  "description": "updated description if needed or keep original"
 }
 
-Keep the improvements focused and maintain the existing structure where possible.
+Respond ONLY with the JSON object, no explanatory text before or after.
 `;
 
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
       
+      console.log('📝 AI Response received:', text.substring(0, 500) + '...');
+      
       try {
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        // First try to find JSON in the response
+        let jsonMatch = text.match(/\{[\s\S]*\}/);
+        
+        if (!jsonMatch) {
+          // Try to find JSON wrapped in markdown code blocks
+          jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/);
+          if (jsonMatch) {
+            jsonMatch[0] = jsonMatch[1];
+          }
+        }
+        
+        if (!jsonMatch) {
+          // Try to find JSON without the outer curly braces and reconstruct
+          const htmlMatch = text.match(/"html":\s*"((?:[^"\\]|\\.)*)"/);
+          const cssMatch = text.match(/"css":\s*"((?:[^"\\]|\\.)*)"/);
+          const jsMatch = text.match(/"js":\s*"((?:[^"\\]|\\.)*)"/);
+          
+          if (htmlMatch || cssMatch) {
+            console.log('🔧 Reconstructing JSON from partial matches');
+            return {
+              html: htmlMatch ? htmlMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n') : currentCode.html,
+              css: cssMatch ? cssMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n') : currentCode.css,
+              js: jsMatch ? jsMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n') : currentCode.js,
+              title: currentCode.title,
+              description: currentCode.description
+            };
+          }
+        }
+        
         if (jsonMatch) {
-          return JSON.parse(jsonMatch[0]);
+          const improvedCode = JSON.parse(jsonMatch[0]);
+          console.log('✅ Successfully parsed improved code');
+          
+          // Ensure all required fields exist
+          return {
+            html: improvedCode.html || currentCode.html,
+            css: improvedCode.css || currentCode.css,
+            js: improvedCode.js || currentCode.js,
+            title: improvedCode.title || currentCode.title,
+            description: improvedCode.description || currentCode.description
+          };
+        } else {
+          console.error('❌ No JSON found in response');
         }
       } catch (parseError) {
-        console.error('Failed to parse JSON:', parseError);
+        console.error('❌ Failed to parse JSON:', parseError);
+        console.log('Raw response:', text);
       }
       
-      return currentCode; // Return original if parsing fails
+      // If we reach here, something went wrong - let's try a simple fallback improvement
+      console.warn('⚠️ AI parsing failed, applying fallback improvements...');
+      
+      // Apply some basic improvements based on the request
+      let improvedCode = { ...currentCode };
+      
+      const request = improvementRequest.toLowerCase();
+      
+      if (request.includes('color') || request.includes('vibrant')) {
+        // Add some color improvements
+        improvedCode.css += `
+        
+/* Auto-applied color improvements */
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --accent-color: #f093fb;
+}
+body { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
+h1, h2, h3 { color: var(--accent-color); }
+`;
+      }
+      
+      if (request.includes('animation') || request.includes('hover')) {
+        // Add animation improvements
+        improvedCode.css += `
+        
+/* Auto-applied animation improvements */
+* { transition: all 0.3s ease; }
+button:hover, .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+h1, h2, h3 { animation: fadeInUp 0.6s ease-out; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+`;
+      }
+      
+      if (request.includes('mobile') || request.includes('responsive')) {
+        // Add responsive improvements
+        improvedCode.css += `
+        
+/* Auto-applied responsive improvements */
+@media (max-width: 768px) {
+  body { padding: 1rem; }
+  h1 { font-size: 2rem; }
+  .container { max-width: 100%; padding: 0 1rem; }
+}
+`;
+      }
+      
+      console.log('🔧 Applied fallback improvements');
+      return improvedCode;
     } catch (error) {
-      console.error('Error improving website:', error);
+      console.error('❌ Error improving website:', error);
       throw error;
     }
   }
