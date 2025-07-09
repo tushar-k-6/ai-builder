@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="aiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="45" fill="url(#aiGradient)" filter="url(#glow)"/>
+  
+  <!-- AI Brain/Neural Network Pattern -->
+  <g fill="white" opacity="0.9">
+    <!-- Central node -->
+    <circle cx="50" cy="50" r="4"/>
+    
+    <!-- Neural connections -->
+    <line x1="50" y1="50" x2="35" y2="35" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="65" y2="35" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="35" y2="65" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="65" y2="65" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="50" y2="30" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="50" y2="70" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="30" y2="50" stroke="white" stroke-width="2" opacity="0.7"/>
+    <line x1="50" y1="50" x2="70" y2="50" stroke="white" stroke-width="2" opacity="0.7"/>
+    
+    <!-- Outer nodes -->
+    <circle cx="35" cy="35" r="2.5"/>
+    <circle cx="65" cy="35" r="2.5"/>
+    <circle cx="35" cy="65" r="2.5"/>
+    <circle cx="65" cy="65" r="2.5"/>
+    <circle cx="50" cy="30" r="2.5"/>
+    <circle cx="50" cy="70" r="2.5"/>
+    <circle cx="30" cy="50" r="2.5"/>
+    <circle cx="70" cy="50" r="2.5"/>
+    
+    <!-- Additional smaller nodes -->
+    <circle cx="25" cy="25" r="1.5"/>
+    <circle cx="75" cy="25" r="1.5"/>
+    <circle cx="25" cy="75" r="1.5"/>
+    <circle cx="75" cy="75" r="1.5"/>
+  </g>
+  
+  <!-- Sparkle effects -->
+  <g fill="white" opacity="0.8">
+    <polygon points="20,20 21,17 22,20 25,19 22,22 21,25 20,22 17,23" transform="rotate(45 21 21)"/>
+    <polygon points="80,15 81,13 82,15 84,14 82,17 81,19 80,17 78,18" transform="rotate(30 81 16)"/>
+    <polygon points="85,80 86,78 87,80 89,79 87,82 86,84 85,82 83,83" transform="rotate(60 86 81)"/>
+  </g>
+</svg>

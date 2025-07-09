@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="logoGradient192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="50%" style="stop-color:#764ba2"/>
+      <stop offset="100%" style="stop-color:#f093fb"/>
+    </linearGradient>
+    <filter id="glow192">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="192" height="192" fill="url(#logoGradient192)" rx="32" filter="url(#glow192)"/>
+  
+  <!-- AI Neural Network -->
+  <g fill="white" opacity="0.95">
+    <!-- Central node -->
+    <circle cx="96" cy="96" r="8"/>
+    
+    <!-- Main neural connections -->
+    <line x1="96" y1="96" x2="64" y2="64" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="128" y2="64" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="64" y2="128" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="128" y2="128" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="96" y2="48" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="96" y2="144" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="48" y2="96" stroke="white" stroke-width="4" opacity="0.8"/>
+    <line x1="96" y1="96" x2="144" y2="96" stroke="white" stroke-width="4" opacity="0.8"/>
+    
+    <!-- Primary nodes -->
+    <circle cx="64" cy="64" r="6"/>
+    <circle cx="128" cy="64" r="6"/>
+    <circle cx="64" cy="128" r="6"/>
+    <circle cx="128" cy="128" r="6"/>
+    <circle cx="96" cy="48" r="6"/>
+    <circle cx="96" cy="144" r="6"/>
+    <circle cx="48" cy="96" r="6"/>
+    <circle cx="144" cy="96" r="6"/>
+    
+    <!-- Secondary connections -->
+    <line x1="64" y1="64" x2="48" y2="48" stroke="white" stroke-width="2" opacity="0.6"/>
+    <line x1="128" y1="64" x2="144" y2="48" stroke="white" stroke-width="2" opacity="0.6"/>
+    <line x1="64" y1="128" x2="48" y2="144" stroke="white" stroke-width="2" opacity="0.6"/>
+    <line x1="128" y1="128" x2="144" y2="144" stroke="white" stroke-width="2" opacity="0.6"/>
+    
+    <!-- Outer nodes -->
+    <circle cx="48" cy="48" r="4"/>
+    <circle cx="144" cy="48" r="4"/>
+    <circle cx="48" cy="144" r="4"/>
+    <circle cx="144" cy="144" r="4"/>
+    
+    <!-- Sparkle effects -->
+    <polygon points="32,32 34,28 36,32 40,30 36,36 34,40 32,36 28,38" transform="rotate(45 34 34)"/>
+    <polygon points="160,24 162,20 164,24 168,22 164,28 162,32 160,28 156,30" transform="rotate(30 162 26)"/>
+    <polygon points="168,160 170,156 172,160 176,158 172,164 170,168 168,164 164,166" transform="rotate(60 170 162)"/>
+    <polygon points="24,168 26,164 28,168 32,166 28,172 26,176 24,172 20,174" transform="rotate(15 26 170)"/>
+  </g>
+</svg>
